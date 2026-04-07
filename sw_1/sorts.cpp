@@ -27,3 +27,24 @@ void selectionSort(int* ar, unsigned int size, bool ascending) {
         }
     }
 }
+
+// SW_1_2: Проверка массива на отсортированность
+int isSorted(const int* array, unsigned int size) {
+    if (size <= 1) return 1; // Пустой или из 1 элемента считается по возрастанию
+    
+    bool ascending = true;  // Предполагаем, что по возрастанию
+    bool descending = true; // Предполагаем, что по убыванию
+    
+    for (unsigned int i = 0; i < size - 1; i++) {
+        if (array[i] < array[i + 1]) {
+            descending = false; // Если есть возрастание, то не по убыванию
+        }
+        if (array[i] > array[i + 1]) {
+            ascending = false; // Если есть убывание, то не по возрастанию
+        }
+    }
+    
+    if (ascending) return 1;
+    if (descending) return -1;
+    return 0;
+}
