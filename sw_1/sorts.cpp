@@ -1,4 +1,6 @@
 #include "sorts.h"
+#include <iostream>
+#include <fstream>
 
 // SW_1_1: Реализация сортировки выбором
 void selectionSort(int* ar, unsigned int size, bool ascending) {
@@ -47,4 +49,70 @@ int isSorted(const int* array, unsigned int size) {
     if (ascending) return 1;
     if (descending) return -1;
     return 0;
+}
+
+// SW_1_addon: Ввод массива с клавиатуры
+int* inputArrayFromKeyboard(unsigned int& size) {
+    std::cout << "Enter array size: ";
+    std::cin >> size;
+    
+    if (size == 0) {
+        std::cout << "Error: Size cannot be 0!" << std::endl;
+        return nullptr;
+    }
+    
+    int* ar = new int[size];
+    std::cout << "Enter " << size << " elements (space separated): ";
+    for (unsigned int i = 0; i < size; i++) {
+        std::cin >> ar[i];
+    }
+    
+    return ar;
+}
+
+// SW_1_addon: Ввод массива из файла
+int* inputArrayFromFile(const char* filename, unsigned int& size) {
+    std::ifstream file(filename);
+    
+    if (!file.is_open()) {
+        std::cerr << "Error: Cannot open file '" << filename << "'" << std::endl;
+        return nullptr;
+    }
+    
+    // Первое число в файле - размер массива
+    file >> size;
+    
+    if (size == 0) {
+        std::cerr << "Error: Size cannot be 0 in file!" << std::endl;
+        file.close();
+        return nullptr;
+    }
+    
+    int* ar = new int[size];
+    for (unsigned int i = 0; i < size; i++) {
+        file >> ar[i];
+    }
+    
+    file.close();
+    
+    std::cout << "Successfully read " << size << " elements from file" << std::endl;
+    return ar;
+}
+
+// SW_1_addon: Вывод массива на экран
+void printArray(const int* ar, unsigned int size) {
+    if (ar == nullptr) {
+        std::cout << "Array is empty" << std::endl;
+        return;
+    }
+    
+    for (unsigned int i = 0; i < size; i++) {
+        std::cout << ar[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+// SW_1_addon: Освобождение памяти
+void freeArray(int* ar) {
+    delete[] ar;
 }
